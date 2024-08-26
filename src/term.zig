@@ -204,7 +204,7 @@ pub const Term = struct {
         defer self.allocator.free(t);
         try self.out(t);
     }
-    fn get_Size(tty: std.posix.fd_t) Error!Size {
+    pub fn get_Size(tty: std.posix.fd_t) Error!Size {
         if (builtin.os.tag == .windows) {
             //Microsoft Windows Case
             var info: win32.CONSOLE_SCREEN_BUFFER_INFO = undefined;
