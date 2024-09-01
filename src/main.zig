@@ -8,7 +8,17 @@ pub fn main() !void {
     try terminal.set_bg_color(40, 40, 40);
     try terminal.set_fg_color(255, 128, 0);
     try terminal.out("hello world\n");
-    _ = try terminal.stdin.readByte();
+    var running = true;
+    while (running) {
+        const byte = try terminal.stdin.readByte();
+        if (byte == 'q') {
+            running = false;
+        } else {
+            std.debug.print("sending cmd\n", .{});
+            try terminal.out(term.FULL_SCREEN);
+            try terminal.out(term.CSI ++ "3;0;0t");
+        }
+    }
     try terminal.deinit();
 
     if (gpa.deinit() == .leak) {

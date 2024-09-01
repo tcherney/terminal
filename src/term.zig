@@ -106,7 +106,13 @@ pub const COLOR_NOT_ITALIC = CSI ++ "23m";
 pub const TERM_ON = SCREEN_BUF_ON ++ CURSOR_HIDE ++ CURSOR_HOME ++ SCREEN_CLEAR ++ COLOR_DEF;
 pub const TERM_OFF = SCREEN_BUF_OFF ++ CURSOR_SHOW ++ N1;
 
-pub const FULL_SCREEN = CSI ++ "8;200;500t";
+pub const FULL_SCREEN = CSI ++ "4;200;200t";
+
+pub const SCROLL_UP = CSI ++ "{d} S";
+
+pub const SCROLL_DOWN = CSI ++ "{d} T";
+
+pub const ZOOM = CSI ++ "9;1t";
 
 //handy characters
 pub const N1 = "\n";

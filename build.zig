@@ -25,6 +25,7 @@ pub fn build(b: *std.Build) void {
     const terminal_module = b.addModule("term", .{
         .root_source_file = b.path("src/term.zig"),
     });
+    exe.linkLibC();
     exe.root_module.addImport("term", terminal_module);
 
     // This declares intent for the executable to be installed into the
