@@ -13,10 +13,6 @@ pub fn main() !void {
         const byte = try terminal.stdin.readByte();
         if (byte == 'q') {
             running = false;
-        } else {
-            std.debug.print("sending cmd\n", .{});
-            try terminal.out(term.FULL_SCREEN);
-            try terminal.out(term.CSI ++ "3;0;0t");
         }
     }
     try terminal.deinit();

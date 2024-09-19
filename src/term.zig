@@ -106,11 +106,11 @@ pub const COLOR_NOT_ITALIC = CSI ++ "23m";
 pub const TERM_ON = SCREEN_BUF_ON ++ CURSOR_HIDE ++ CURSOR_HOME ++ SCREEN_CLEAR ++ COLOR_DEF;
 pub const TERM_OFF = SCREEN_BUF_OFF ++ CURSOR_SHOW ++ N1;
 
-pub const FULL_SCREEN = CSI ++ "4;200;200t";
+pub const FULL_SCREEN = CSI ++ "5;200;200t";
 
 pub const SCROLL_UP = CSI ++ "{d} S";
 
-pub const SCROLL_DOWN = CSI ++ "{d} T";
+pub const SCROLL_DOWN = CSI ++ "2 T";
 
 pub const ZOOM = CSI ++ "9;1t";
 
@@ -177,15 +177,13 @@ pub const Term = struct {
     pub fn init(allocator: std.mem.Allocator) !Self {
         const stdout = std.io.getStdOut().writer();
         const stdin = std.io.getStdIn().reader();
-        const ret = Self{
+        var ret = Self{
             .size = try get_Size(stdout.context.handle),
             .allocator = allocator,
             .stdout = stdout,
             .stdin = stdin,
         };
-
         try ret.out(TERM_ON);
-        //try ret.out(FULL_SCREEN);
         return ret;
     }
 
