@@ -74,7 +74,7 @@ const TIOCGWINSZ = std.c.T.IOCGWINSZ; // ioctl flag
 
 //term size
 pub const Size = struct { height: usize, width: usize };
-pub const Error = error{SizeError} || std.fmt.AllocPrintError || std.fs.File.Writer.Error;
+pub const Error = error{SizeError} || std.fmt.AllocPrintError || std.fs.File.Writer.Error || std.fs.File.Reader.NoEofError;
 
 //ansi escape codes
 pub const ESC = "\x1B";
