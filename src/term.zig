@@ -226,7 +226,7 @@ pub const Term = struct {
             const rv = std.c.ioctl(tty, TIOCGWINSZ, @intFromPtr(&winsz));
 
             if (rv >= 0) {
-                return Size{ .height = winsz.row, .width = winsz.col };
+                return Size{ .height = winsz.row * 2, .width = winsz.col };
             } else {
                 return Error.SizeError;
             }
