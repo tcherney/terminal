@@ -217,7 +217,7 @@ pub const Term = struct {
             };
 
             return Size{
-                .height = @as(usize, @intCast(info.srWindow.Bottom - info.srWindow.Top + 1)) * 2,
+                .height = @as(usize, @intCast(info.srWindow.Bottom - info.srWindow.Top + 1)),
                 .width = @intCast(info.srWindow.Right - info.srWindow.Left + 1),
             };
         } else {
@@ -226,7 +226,7 @@ pub const Term = struct {
             const rv = std.c.ioctl(tty, TIOCGWINSZ, @intFromPtr(&winsz));
 
             if (rv >= 0) {
-                return Size{ .height = winsz.row * 2, .width = winsz.col };
+                return Size{ .height = winsz.row, .width = winsz.col };
             } else {
                 return Error.SizeError;
             }
