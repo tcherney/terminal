@@ -70,7 +70,7 @@ pub fn indx_rgb(indx: u8) struct { r: u8, b: u8, g: u8 } {
     };
 }
 
-const TIOCGWINSZ = std.c.T.IOCGWINSZ; // ioctl flag
+const TIOCGWINSZ = if (builtin.os.tag == .linux) std.c.T.IOCGWINSZ else void;
 
 //term size
 pub const Size = struct { height: usize, width: usize };
@@ -220,7 +220,7 @@ pub const Term = struct {
                 .height = @as(usize, @intCast(info.srWindow.Bottom - info.srWindow.Top + 1)),
                 .width = @intCast(info.srWindow.Right - info.srWindow.Left + 1),
             };
-        } else {
+        } else if (builtin.os.tag == .linux) {
             //Linux-MacOS Case
             var winsz = std.posix.winsize{ .col = 0, .row = 0, .xpixel = 0, .ypixel = 0 };
             const rv = std.c.ioctl(tty, TIOCGWINSZ, @intFromPtr(&winsz));
@@ -230,6 +230,6 @@ pub const Term = struct {
             } else {
                 return Error.SizeError;
             }
-        }
+        } else {}
     }
 };
