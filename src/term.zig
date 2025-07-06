@@ -177,17 +177,20 @@ pub const Term = struct {
     pub fn init(allocator: std.mem.Allocator) !Self {
         const stdout = std.io.getStdOut().writer();
         const stdin = std.io.getStdIn().reader();
-        var ret = Self{
+        const ret = Self{
             .size = try get_Size(stdout.context.handle),
             .allocator = allocator,
             .stdout = stdout,
             .stdin = stdin,
         };
-        try ret.out(TERM_ON);
         return ret;
     }
 
-    pub fn deinit(self: *Self) !void {
+    pub fn on(self: *Self) Error!void {
+        try self.out(TERM_ON);
+    }
+
+    pub fn off(self: *Self) Error!void {
         try self.out(TERM_OFF);
     }
 
@@ -230,6 +233,8 @@ pub const Term = struct {
             } else {
                 return Error.SizeError;
             }
-        } else {}
+        } else {
+            return Size{ .height = 58, .width = 150 };
+        }
     }
 };
