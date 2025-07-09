@@ -172,15 +172,18 @@ pub const Term = struct {
     size: Size = undefined,
     allocator: std.mem.Allocator = undefined,
     stdout: std.fs.File.Writer = undefined,
+    stderr: std.fs.File.Writer = undefined,
     stdin: std.fs.File.Reader = undefined,
     const Self = @This();
     pub fn init(allocator: std.mem.Allocator) !Self {
         const stdout = std.io.getStdOut().writer();
+        const stderr = std.io.getStdErr().writer();
         const stdin = std.io.getStdIn().reader();
         const ret = Self{
             .size = try get_Size(stdout.context.handle),
             .allocator = allocator,
             .stdout = stdout,
+            .stderr = stderr,
             .stdin = stdin,
         };
         return ret;
@@ -204,6 +207,10 @@ pub const Term = struct {
 
     pub fn out(self: *const Self, s: []const u8) Error!void {
         _ = try self.stdout.write(s);
+    }
+
+    pub fn out_err(self: *const Self, s: []const u8) Error!void {
+        _ = try self.stderr.write(s);
     }
 
     pub fn out_fmt(self: *const Self, comptime s: []const u8, args: anytype) Error!void {
