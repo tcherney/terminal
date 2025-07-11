@@ -241,7 +241,7 @@ pub const Term = struct {
                 return Error.SizeError;
             }
         } else {
-            return Size{ .height = 58, .width = 150 };
+            return Size{ .height = 35, .width = 150 };
         }
     }
 };
