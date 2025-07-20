@@ -137,6 +137,8 @@ pub const BG_RGB = "48;2;{d};{d};{d}m";
 pub const FG: [MAX_COLOR][]const u8 = init_color("{s}38;5;{d}m");
 pub const BG: [MAX_COLOR][]const u8 = init_color("{s}48;5;{d}m");
 
+pub var WASM_SIZE: Size = .{ .height = 50, .width = 130 };
+
 const win32 = struct {
     pub const BOOL = i32;
     pub const HANDLE = std.os.windows.HANDLE;
@@ -241,7 +243,7 @@ pub const Term = struct {
                 return Error.SizeError;
             }
         } else {
-            return Size{ .height = 35, .width = 150 };
+            return WASM_SIZE;
         }
     }
 };
