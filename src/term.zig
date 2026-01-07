@@ -114,6 +114,16 @@ pub const SCROLL_DOWN = CSI ++ "2 T";
 
 pub const ZOOM = CSI ++ "9;1t";
 
+pub const DCS = ESC ++ "P";
+pub const ST = ESC ++ "\\";
+pub const SIXEL_START = DCS ++ "1;1;1;1;1;1q";
+pub const SIXEL_END = ST;
+pub const SET_SIXEL_COLOR = "#{d};{d};{d};{d}"; // register;r;g;b
+pub const SIXEL_USE_COLOR = "#{d}"; // color index
+pub const SIXEL_NEW_LINE = "-";
+pub const SIXEL_REPEAT = "!{d}"; // repeat count
+pub const SIXEL_RESET_LINE = "$";
+
 //handy characters
 pub const N1 = "\n";
 pub const SEP = '▏';
