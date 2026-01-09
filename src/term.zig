@@ -114,23 +114,36 @@ pub const SCROLL_DOWN = CSI ++ "2 T";
 
 pub const ZOOM = CSI ++ "9;1t";
 
+//colors
+pub const MAX_COLOR = 256;
+pub const LAST_COLOR = MAX_COLOR - 1;
+
 pub const DCS = ESC ++ "P";
 pub const ST = ESC ++ "\\";
+pub const SIXEL_START_DEFAULT = DCS ++ "q";
 pub const SIXEL_START = DCS ++ "1;1;1;1;1;1q";
 pub const SIXEL_END = ST;
-pub const SET_SIXEL_COLOR = "#{d};{d};{d};{d}"; // register;r;g;b
+pub const SET_SIXEL_COLOR = "#{d};2;{d};{d};{d}"; // register;r;g;b
 pub const SIXEL_USE_COLOR = "#{d}"; // color index
 pub const SIXEL_NEW_LINE = "-";
 pub const SIXEL_REPEAT = "!{d}"; // repeat count
 pub const SIXEL_RESET_LINE = "$";
+//TODO add 256 color register assignment for sixel
+pub const SIXEL_COLORS: [MAX_COLOR][]const u8 = init_sixel_color(SET_SIXEL_COLOR);
+
+fn init_sixel_color(color_code: []const u8) [MAX_COLOR][]const u8 {
+    var color_idx: u16 = 0;
+    var colors: [MAX_COLOR][]const u8 = undefined;
+    const rgb = indx_rgb(color_idx);
+    while (color_idx < MAX_COLOR) : (color_idx += 1) {
+        colors[color_idx] = std.fmt.comptimePrint(color_code, .{ color_idx, rgb.r, rgb.g, rgb.b });
+    }
+    return colors;
+}
 
 //handy characters
 pub const N1 = "\n";
 pub const SEP = '▏';
-
-//colors
-pub const MAX_COLOR = 256;
-pub const LAST_COLOR = MAX_COLOR - 1;
 
 fn init_color(color_code: []const u8) [MAX_COLOR][]const u8 {
     var color_idx: u16 = 0;
