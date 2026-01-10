@@ -64,8 +64,8 @@ const color_table: [256]u32 = [_]u32{ 0x000000, 0x800000, 0x008000, 0x808000, 0x
 pub fn indx_rgb(indx: u8) struct { r: u8, b: u8, g: u8 } {
     const rgb = color_table[indx];
     return .{
-        .r = @as(u8, @intCast((rgb >> 4) & 0xFF)),
-        .g = @as(u8, @intCast((rgb >> 2) & 0xFF)),
+        .r = @as(u8, @intCast((rgb >> 16) & 0xFF)),
+        .g = @as(u8, @intCast((rgb >> 8) & 0xFF)),
         .b = @as(u8, @intCast(rgb & 0xFF)),
     };
 }
@@ -134,9 +134,9 @@ pub const SIXEL_COLORS: [MAX_COLOR][]const u8 = init_sixel_color(SET_SIXEL_COLOR
 fn init_sixel_color(color_code: []const u8) [MAX_COLOR][]const u8 {
     var color_idx: u16 = 0;
     var colors: [MAX_COLOR][]const u8 = undefined;
-    const rgb = indx_rgb(color_idx);
     while (color_idx < MAX_COLOR) : (color_idx += 1) {
-        colors[color_idx] = std.fmt.comptimePrint(color_code, .{ color_idx, rgb.r, rgb.g, rgb.b });
+        const rgb = indx_rgb(color_idx);
+        colors[color_idx] = std.fmt.comptimePrint(color_code, .{ color_idx, @as(u8, @intFromFloat((@as(f64, @floatFromInt(rgb.r)) * 100) / 255.0)), @as(u8, @intFromFloat((@as(f64, @floatFromInt(rgb.g)) * 100) / 255.0)), @as(u8, @intFromFloat((@as(f64, @floatFromInt(rgb.b)) * 100) / 255.0)) });
     }
     return colors;
 }
