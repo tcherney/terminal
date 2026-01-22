@@ -120,7 +120,7 @@ pub const LAST_COLOR = MAX_COLOR - 1;
 
 pub const DCS = ESC ++ "P";
 pub const ST = ESC ++ "\\";
-pub const SIXEL_START_DEFAULT = DCS ++ "q";
+pub const SIXEL_START_DEFAULT = DCS ++ "0;0;0q";
 pub const SIXEL_START = DCS ++ "1;1;1;1;1;1q";
 pub const SIXEL_END = ST;
 pub const SET_SIXEL_COLOR = "#{d};2;{d};{d};{d}"; // register;r;g;b
