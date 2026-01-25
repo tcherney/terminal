@@ -120,9 +120,12 @@ pub const LAST_COLOR = MAX_COLOR - 1;
 
 pub const DCS = ESC ++ "P";
 pub const ST = ESC ++ "\\";
+pub const SIXEL_POSITIONAL = CSI ++ "?8452h";
 pub const SIXEL_START_DEFAULT = DCS ++ "0;0;0q";
 pub const SIXEL_START = DCS ++ "1;1;1;1;1;1q";
 pub const SIXEL_END = ST;
+pub const SIXEL_SIZE = "\"{d};{d};{d};{d}";
+pub const SIXEL_CURSOR_UP = CSI ++ "{d}A";
 pub const SET_SIXEL_COLOR = "#{d};2;{d};{d};{d}"; // register;r;g;b
 pub const SIXEL_USE_COLOR = "#{d}"; // color index
 pub const SIXEL_NEW_LINE = "-";
